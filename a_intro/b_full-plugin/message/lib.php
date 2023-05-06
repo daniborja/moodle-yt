@@ -22,10 +22,32 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 // output hook: https://docs.moodle.org/dev/Output_callbacks#before_footer
 function local_message_before_footer() {
 	// agregar notificaciones de NO redirect: https://docs.moodle.org/dev/Notifications#Notifications
 	// \core\notification::success('Some error message');
+
+	global $DB;
+
+	$messages = $DB->get_records('local_message');
+
+	foreach ($messages as $message) {
+		$type = \core\output\notification::NOTIFY_INFO;
+
+		if ($message->messagetype === '1') {
+			$type = \core\output\notification::NOTIFY_WARNING;
+		}
+		if ($message->messagetype === '0') {
+			$type = \core\output\notification::NOTIFY_SUCCESS;
+		}
+		if ($message->messagetype === '2') {
+			$type = \core\output\notification::NOTIFY_ERROR;
+		}
+		if ($message->messagetype === '3') {
+			$type = \core\output\notification::NOTIFY_INFO;
+		}
+
+		\core\notification::add($message->messagetext, $type);
+	}
 
 }

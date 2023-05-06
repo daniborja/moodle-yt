@@ -181,14 +181,15 @@
 
 ## display dynamic notification #6
 - --- Lo q teniemoas en el    lib.php    lo queremos hacer dinamico, para q tome de manera dinamica el mensaje y el tipo de notificacion
-  - 
+  -  Simplemente modificamos el      `lib.php`    xq queremos q se muestren con el hook
 
 
 
 
 
 
-
+## build SQL to mark a message as read #7
+- ---
 
 
 
