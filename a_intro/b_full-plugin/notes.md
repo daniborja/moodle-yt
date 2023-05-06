@@ -88,6 +88,121 @@
 
 
 
+	- -- Queremos crear 1 New Page, en donde podamos crear 1 nuevo message e insertarlo en DB, en las tablas q acabamos de crear con el     install.xml
+  	- Vamos a crear 1 nueva pagina y la vamos a llamar    `manage.php`
+    	- Se llama asi xq va a administrar los mensajes existentes, todas las Operaciones CRUD
+
+		- -- Creamos el      `manage.php`      en el root del plugin q sera 1 PAGE
+  		- Damos el boilderplay code, lo q siempre se repite: lo del    lib/version.php
+    		- Se quiere crear 1 page a odne el use pueda navegar
+      		- Como es  1 page a la q queremos navegar desde afuera, pues NOOO va con el 
+					`		defined('MOODLE_INTERNAL') || die();`
+			- Le damos acceso a los Objetos Globales a traves del    config.php
+  			- Hacemos q lo   require_one
+			- Seteamos la config de la   $PAGE
+
+
+
+		- -- Vamos a mover todo lo construido a un Template para no harcodear html asi
+  		- -- Para esto creamos el     `manage.mustache`    en   /templates
+    		- Todos los templates de Moodle se manejan con     `Mustache`
+
+
+
+
+
+		- -- Para tener data q monstrar, vamos a crear el   PAGE    del form para crear nuevos mensajes
+  		- -- Creamos el      `edit.php`
+    		- Q es en donde vamos a mostrar nuestro Form para crear los messages
+
+
+			- -- Creamos el   `/classes`   xq nuestra definicion de FORM es una Class
+  			- Extendera de   `moodleform`
+    			- Para crear   FORMS   en moodle, usar la    Form API
+      			- Esta api separa en 2 momentos el uso de forms
+        			- 1. Class q Extends de    moodleform    q esta en 
+									[path/to/plugin]/classes/form/myform.php
+        			- 2. Usar ese Form en donde sea requerido
+									https://moodledev.io/docs/apis/subsystems/form#usage
+
+				- Una vez tenemos definida la     classes     q extends de   moodleform    procedemos a instanciarla
+  				- En donde sea q la vayamos a usar, en este caso en el     edit.php    del root del plugin
+
+				- -- Para permitirle elegir el    Tipo de Mensaje    al admin, vamos a hacer esto mas dinamico
+  				- Asi q implementaremos 1    select    en el form
+  				- Este lo implementamos igual en el    /classes/form/edit
+
+				- -- Agregamos el btn de   submit:  `$this->add_action_buttons();`
+
+
+
+		- -- 1 Context puede tener otros contextos y se pueden Asignar Roles a c/contexto
+  		- EL concepto de Contex es importante en Moodle
+    		- Ver la docs
+
+
+				-- URL:
+					- API Guides:			https://moodledev.io/docs/apis
+					- Page API:				https://docs.moodle.org/dev/Page_API
+					- Navigation			https://moodledev.io/docs/apis/core/navigation
+					- Context:				https://docs.moodle.org/402/en/Context
+					- Template:				https://moodledev.io/docs/guides/templates
+					- Forms API:			https://moodledev.io/docs/apis/subsystems/forms
+
+
+
+
+
+
+## Handle form submission #5
+- --- Ahora que ya tenemos el form con el submit button, debemos manejar este submit para persistir en DB
+  - Ahora vamos a implementar el    handle    de la Cancelacion del Sumbit
+    - Esto lo hacemos en el    `edit.php`    del root del plugin
+      - En base a la doc se ve como manejar el form
+        - Luego, al recuperar esa info, la persistimos en db con     `$DB`
+
+  - En el    template mustache    le podemos meter todo el html q queramos
+    - X defecto Moodle usa Bootstrap, asi q podemos usar sus clases
+
+
+		-- URL:
+			- Form API: https://docs.moodle.org/dev/lib/formslib.php_Form_Definition#definition.28.29
+
+
+
+
+
+
+
+
+
+
+
+
+## display dynamic notification #6
+- --- Lo q teniemoas en el    lib.php    lo queremos hacer dinamico, para q tome de manera dinamica el mensaje y el tipo de notificacion
+  - 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 - --- Project de la sig semana
@@ -101,7 +216,8 @@
 		- Ver como transformar el video a una version mas libiana con Node.js
 			-	Esto lo suelen hacer con Python
 				- Podriamos exponer 1 api q haga esta reduccion de calidad en Python xq es + eficiente
-		- 
+
+
 
 
 

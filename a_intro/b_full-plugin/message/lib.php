@@ -26,6 +26,6 @@
 // output hook: https://docs.moodle.org/dev/Output_callbacks#before_footer
 function local_message_before_footer() {
 	// agregar notificaciones de NO redirect: https://docs.moodle.org/dev/Notifications#Notifications
-	\core\notification::success('Some error message');
+	// \core\notification::success('Some error message');
 
 }
