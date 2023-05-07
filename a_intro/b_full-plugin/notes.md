@@ -189,7 +189,23 @@
 
 
 ## build SQL to mark a message as read #7
-- ---
+- --- Debemos guardar en DB q se ha visto 1 mensaje x
+  - Agregamos esta funcionalidad en el     `lib.php`
+    - Creamos 1    $sql    raw query para traernos lo q necesitamos
+      - En este caso   SOLO   nos traemos la data si NO ha sido vista
+        - Es decir, su los   messageId   NO estan en la tabla   read
+
+
+
+
+
+
+
+
+## 
+
+
+
 
 
 

@@ -27,9 +27,19 @@ function local_message_before_footer() {
 	// agregar notificaciones de NO redirect: https://docs.moodle.org/dev/Notifications#Notifications
 	// \core\notification::success('Some error message');
 
-	global $DB;
+	global $DB, $USER;
+	// $messages = $DB->get_records('local_message');  // traer normalmente los records
 
-	$messages = $DB->get_records('local_message');
+	// // sql para traer solo si NO han sido vistos (ids en la otra tabla)
+	// contruimos la query - left: traer aunq No hayan otros records en la otra table
+	$sql = 'SELECT lm.id, lm.messagetext, lm.messagetype FROM {local_message} lm 
+					LEFT JOIN {local_message_read} lmr ON lm.id = lmr.messageid
+					WHERE lmr.userid <> :userid OR lmr.userid IS NULL';
+	$params = [
+		'userid' => $USER->id
+	];
+	$messages = $DB->get_records_sql($sql, $params);
+
 
 	foreach ($messages as $message) {
 		$type = \core\output\notification::NOTIFY_INFO;
@@ -48,6 +58,15 @@ function local_message_before_footer() {
 		}
 
 		\core\notification::add($message->messagetext, $type);
-	}
+	
+		
+		// 
+		$readrecord = new stdClass();
+		$readrecord->messageid = $message->id;
+		$readrecord->userid = $USER->id;		// get userId from global variable, nos lo provee moodle
+		$readrecord->timeread = time();
 
+		$DB->insert_record('local_message_read', $readrecord);
+
+	}
 }
